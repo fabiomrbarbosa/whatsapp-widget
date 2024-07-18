@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>WhatsApp Widget</title>
+	</head>
+	<body>
+		<div id="whatsapp-embed">
+			<button
+				id="whatsapp-button"
+				class="whatsapp-button"
+				onclick="toggleWhatsAppWidget()"
+			>
+				<img
+					src="https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png"
+					alt="WhatsApp Logo"
+				/>
+			</button>
+
+			<div class="whatsapp-widget" id="whatsapp-widget">
+				<div class="whatsapp-header">
+					<img
+						class="icon"
+						src="https://www.youandthesea.pt/accounts/16132/modules/account/icons/favicon-ios.png"
+						alt="logo"
+					/>
+					<p class="whatsapp-header__info">
+						<strong class="title">You and the Sea</strong>
+						<span class="online-status">Contact us!</span>
+					</p>
+					<button
+						id="close-button"
+						class="close-button"
+						aria-label="Close the Chat Widget"
+						onclick="toggleWhatsAppCTA()"
+					>
+						<i class="flex"
+							><svg
+								width="17"
+								height="17"
+								viewBox="0 0 17 17"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M9.502 8.5l7.29 7.29c.277.278.277.727 0 1.003-.137.138-.32.207-.5.207s-.362-.07-.5-.207L8.5 9.503l-7.29 7.29c-.14.138-.32.207-.5.207-.183 0-.364-.07-.502-.207-.277-.276-.277-.725 0-1.002l7.29-7.29-7.29-7.29C-.07.932-.07.483.208.206c.277-.276.725-.276 1 0L8.5 7.497l7.29-7.29c.277-.276.725-.276 1.002 0 .277.277.277.726 0 1.002L9.502 8.5z"
+									fill-rule="evenodd"
+								></path></svg
+						></i>
+					</button>
+				</div>
+				<div class="whatsapp-body">
+					<div class="whatsapp-messages">
+						<div class="whatsapp-message">
+							<div class="whatsapp-message__text">
+								Hi, how can we help?
+							</div>
+						</div>
+					</div>
+					<div class="whatsapp-reply">
+						<input
+							type="text"
+							id="whatsapp-input"
+							class="whatsapp-input"
+							placeholder="Type your message..."
+						/>
+						<button
+							class="whatsapp-send"
+							onclick="sendWhatsAppMessage()"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 24 24"
+								width="18"
+								height="18"
+							>
+								<path
+									fill="currentColor"
+									d="M1.101 21.757L23.8 12.028 1.101 2.3l.011 7.912 13.623 1.816-13.623 1.817-.011 7.912z"
+								></path>
+							</svg>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<script>
+				const widget = document.getElementById("whatsapp-widget");
+				const cta = document.getElementById("whatsapp-button");
+				const close = document.getElementById("close-button");
+
+				function toggleWhatsAppWidget() {
+					if (
+						widget.style.display === "none" ||
+						widget.style.display === ""
+					) {
+						widget.style.display = "block";
+					}
+					cta.style.display = "none";
+				}
+
+				function toggleWhatsAppCTA() {
+					if (
+						cta.style.display === "none" ||
+						cta.style.display === ""
+					) {
+						cta.style.display = "block";
+					}
+
+					widget.style.display = "none";
+				}
+
+				function sendWhatsAppMessage() {
+					let message =
+						document.getElementById("whatsapp-input").value;
+					let phoneNumber = "+351961515156";
+					let url =
+						"https://api.whatsapp.com/send?phone=" +
+						phoneNumber +
+						"&text=" +
+						encodeURIComponent(message);
+					window.open(url, "_blank");
+				}
+			</script>
+			<style type="text/css" scoped>
+				.whatsapp-widget {
+					position: fixed;
+					bottom: 20px;
+					right: 20px;
+					width: 100%;
+					max-width: 360px;
+					border: 1px solid #ddd;
+					border-radius: 10px;
+					box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+					font-family: Arial, sans-serif;
+					display: none; /* Hidden by default */
+					z-index: 1000; /* Ensure it appears above other elements */
+				}
+				.whatsapp-header {
+					display: flex;
+					flex-flow: row nowrap;
+					border-top-left-radius: 10px;
+					border-top-right-radius: 10px;
+					color: #fff;
+					background-color: #075e54;
+					align-items: center;
+					justify-content: space-between;
+					flex-shrink: 0;
+					height: 60px;
+					font-weight: 500;
+					box-shadow: 0 15px 25px -13px rgba(0, 0, 0, 0.13);
+					padding: 0 0.8rem;
+					overflow: hidden;
+					z-index: 5;
+					padding: 5px 15px;
+				}
+				.whatsapp-header img {
+					width: 40px;
+					height: 40px;
+					border-radius: 50%;
+				}
+				.whatsapp-header .whatsapp-header__info {
+					display: flex;
+					flex-direction: column;
+					justify-items: center;
+					margin: 0 10px;
+					flex: 1 1 auto;
+					overflow: hidden;
+					color: #fff;
+					font-family: Arial, sans-serif !important;
+					letter-spacing: 0 !important;
+				}
+				.whatsapp-header .title {
+					font-size: 1.125rem;
+					line-height: 1.75rem;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+				.whatsapp-header .online-status {
+					font-size: 0.75rem;
+					line-height: 1rem;
+					opacity: 0.8;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+				.whatsapp-header .close-button {
+					cursor: pointer;
+					background-color: transparent;
+					border: none;
+					padding: 0;
+					transition: background-color 0.3s ease;
+					border-radius: 100%;
+					width: 33px;
+					height: 33px;
+					padding: 0.5rem;
+					justify-self: flex-end;
+					fill: #fff;
+				}
+				.whatsapp-header button.close-button:hover {
+					background-color: #ffffff59;
+				}
+				.whatsapp-body {
+					padding: 10px;
+					background-color: #e5ddd4;
+					background-image: url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png");
+					background-size: 100%;
+					border-radius: 0 0 10px 10px;
+				}
+				.whatsapp-messages {
+					padding: 0.5rem;
+					display: flex;
+					flex-direction: column;
+					overflow-y: auto;
+					min-height: 30vw;
+				}
+				.whatsapp-message {
+					border-top-right-radius: 0.75rem;
+					border-bottom-right-radius: 0.75rem;
+					border-bottom-right-radius: 0.75rem;
+					border-bottom-left-radius: 0.75rem;
+					display: flex;
+					flex-direction: column;
+					align-items: stretch;
+					margin: 0.5rem;
+					box-shadow: 0 0 #0000, 0 0 #0000,
+						0 1px 3px 0 rgba(0, 0, 0, 0.1),
+						0 1px 2px 0 rgba(0, 0, 0, 0.06);
+					position: relative;
+					min-width: 25%;
+					max-width: 75%;
+					height: auto;
+					background-color: #fff;
+				}
+				.whatsapp-message:after {
+					content: " ";
+					position: absolute;
+					width: 0;
+					height: 0;
+					left: -16px;
+					right: auto;
+					top: 0;
+					bottom: auto;
+					border: 18px solid;
+					border-color: #fff transparent transparent transparent;
+				}
+				.whatsapp-message__text {
+					font-size: 0.875rem;
+					line-height: 1.25rem;
+					padding-top: 0.5rem;
+					padding-bottom: 0.5rem;
+					padding-left: 1.25rem;
+					padding-right: 1.25rem;
+					text-align: left;
+					line-height: 1.5em;
+				}
+				.whatsapp-reply {
+					display: flex;
+					gap: 0.5rem;
+				}
+				.whatsapp-input {
+					flex: 1;
+					font-size: 0.875rem;
+					padding: 10px 15px;
+					border: 1px solid #ddd;
+					border-radius: 2rem;
+				}
+				.whatsapp-input:focus {
+					border-color: #aaa !important;
+				}
+				.whatsapp-send {
+					background-color: #075e54;
+					color: white;
+					border: none;
+					padding: 10px;
+					border-radius: 50%;
+					cursor: pointer;
+					width: 40px;
+					height: 40px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					margin-left: auto;
+					margin-right: auto;
+				}
+				.whatsapp-button {
+					position: fixed;
+					bottom: 20px;
+					right: 20px;
+					background-color: #25d366;
+					border: none;
+					border-radius: 50%;
+					width: 60px;
+					height: 60px;
+					cursor: pointer;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+					z-index: 1001; /* Ensure it appears above other elements */
+				}
+				.whatsapp-button img {
+					width: 30px;
+					height: 30px;
+				}
+			</style>
+		</div>
+	</body>
+</html>
